@@ -5,6 +5,7 @@ See LICENSE file for full terms of limited license.
 ]]
 
 require "initenv"
+require "cudnn"
 
 function create_network(args)
 
@@ -55,7 +56,8 @@ function create_network(args)
     net:add(nn.Linear(last_layer_size, args.n_actions))
 
     if args.gpu >=0 then
-        net:cuda()
+      cudnn.convert(net, cudnn)
+      net:cuda()
     end
     if args.verbose >= 2 then
         print(net)

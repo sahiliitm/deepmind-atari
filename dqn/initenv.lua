@@ -13,7 +13,6 @@ require 'image'
 require 'Scale'
 require 'NeuralQLearner'
 require 'TransitionTable'
-require 'Rectifier'
 
 
 function torchSetup(_opt)

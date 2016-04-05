@@ -4,6 +4,7 @@ Copyright (c) 2014 Google Inc.
 See LICENSE file for full terms of limited license.
 ]]
 
+require 'cudnn'
 if not dqn then
     require 'initenv'
 end
@@ -417,11 +418,11 @@ function nql:createNetwork()
     local mlp = nn.Sequential()
     mlp:add(nn.Reshape(self.hist_len*self.ncols*self.state_dim))
     mlp:add(nn.Linear(self.hist_len*self.ncols*self.state_dim, n_hid))
-    mlp:add(nn.Rectifier())
+    mlp:add(nn.ReLU())
     mlp:add(nn.Linear(n_hid, n_hid))
-    mlp:add(nn.Rectifier())
+    mlp:add(nn.ReLU())
     mlp:add(nn.Linear(n_hid, self.n_actions))
-
+    cudnn.convert(mlp, cudnn)
     return mlp
 end
 
